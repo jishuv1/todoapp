@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
   const [form, setForm] = useState({
     username: '',
     password: '',
@@ -18,8 +19,6 @@ const Login = () => {
       return navigate('/tasks');
     }
   }, []);
-
-  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });

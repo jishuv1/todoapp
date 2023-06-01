@@ -34,7 +34,7 @@ const Tasks = () => {
       <div className='container'>
         <div className='row justify-content-md-center mt-4'>
           {list.map((todo) => (
-            <Todo todo={todo} key={todo._id} />
+            <Todo todo={todo} key={todo._id} setRefreshList={setRefreshList} />
           ))}
         </div>
       </div>
