@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { createTodoApi } from '../services/api.js';
 
-const AddTodoMadal = ({ setRefreshList }) => {
+const TodoModal = ({ setRefreshList }) => {
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -109,4 +109,4 @@ const AddTodoMadal = ({ setRefreshList }) => {
     </div>
   );
 };
-export default AddTodoMadal;
+export default TodoModal;

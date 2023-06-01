@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import AddTodoMadal from './AddTodoMadal.jsx';
+import TodoModal from './TodoModal.jsx';
 import Header from './Header.jsx';
 import Todo from './Todo.jsx';
 import { useEffect, useState } from 'react';
@@ -52,7 +52,7 @@ const Tasks = () => {
         </button>
       </div>
 
-      <AddTodoMadal setRefreshList={setRefreshList} />
+      <TodoModal setRefreshList={setRefreshList} />
     </div>
   );
 };

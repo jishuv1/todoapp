@@ -1,6 +1,7 @@
 import moment from 'moment/moment.js';
 import { markTodo } from '../services/api.js';
 import { toast } from 'react-toastify';
+import TodoModal from './TodoModal.jsx';
 
 const Todo = ({ todo, setRefreshList }) => {
   const handleChangeStatus = async (todoId) => {
@@ -13,6 +14,10 @@ const Todo = ({ todo, setRefreshList }) => {
     }
   };
 
+  const handleEditTodo = async (todoId) => {
+    console.log('todoId', todoId);
+  };
+
   return (
     <div className='card text-white bg-dark m-2' style={{ maxWidth: '20rem' }}>
       <div className='card-header' style={{ textAlign: 'center' }}>
@@ -21,7 +26,10 @@ const Todo = ({ todo, setRefreshList }) => {
         </span>
         {todo.isCompleted ? (
           <button
-            onClick={() => handleChangeStatus(todo._id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleChangeStatus(todo._id);
+            }}
             type='button'
             className='badge bg-success'
           >
@@ -29,13 +37,28 @@ const Todo = ({ todo, setRefreshList }) => {
           </button>
         ) : (
           <button
-            onClick={() => handleChangeStatus(todo._id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleChangeStatus(todo._id);
+            }}
             type='button'
             className='badge bg-danger'
           >
             Active
           </button>
         )}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleEditTodo(todo._id);
+          }}
+          type='button'
+          className='badge bg-info'
+          data-bs-toggle='modal'
+          data-bs-target='#exampleModal'
+        >
+          Edit
+        </button>
       </div>
       <div className='card-body'>
         <h4 className='card-title'>{todo.title}</h4>
