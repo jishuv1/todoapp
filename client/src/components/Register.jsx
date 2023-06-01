@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Register = ({ user, setUser }) => {
-  const navigation = useNavigate();
+const Register = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     username: '',
     password: '',
@@ -17,20 +17,18 @@ const Register = ({ user, setUser }) => {
   useEffect(() => {
     const user = localStorage.getItem('user');
     if (user) {
-      return navigation('/');
+      return navigate('/tasks');
     }
-  }, [navigation]);
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     setError(null);
 
     const result = await register(form);
-    console.log('form submit', result);
 
     if (result.status === 200) {
       if (result.data.status === 201) {
@@ -40,7 +38,7 @@ const Register = ({ user, setUser }) => {
       }
       if (result.data.status === 200) {
         localStorage.setItem('user', JSON.stringify(result.data.data));
-        navigation('/');
+        navigate('/tasks');
         return;
       }
       if (result.data.status === 202) {
@@ -60,7 +58,7 @@ const Register = ({ user, setUser }) => {
         <div className='row justify-content-center mt-4'>
           <div
             className='card text-white bg-secondary  '
-            style={{ 'max-width': '30rem' }}
+            style={{ maxWidth: '30rem' }}
           >
             <div className='card-body'>
               <h4 className='card-title'>Create new account</h4>
@@ -85,25 +83,27 @@ const Register = ({ user, setUser }) => {
                 )}
               </div>
               <div className='form-group'>
-                <label
-                  htmlFor='exampleInputPassword1'
-                  className='form-label mt-2'
-                >
-                  Password
-                </label>
-                <input
-                  type='password'
-                  onChange={handleChange}
-                  name='password'
-                  className='form-control'
-                  id='exampleInputPassword1'
-                  placeholder='Password'
-                />
-                {error?.password && (
-                  <small id='emailHelp' className='form-text text-danger'>
-                    {error.password.msg}
-                  </small>
-                )}
+                <form>
+                  <label
+                    htmlFor='exampleInputPassword1'
+                    className='form-label mt-2'
+                  >
+                    Password
+                  </label>
+                  <input
+                    type='password'
+                    onChange={handleChange}
+                    name='password'
+                    className='form-control'
+                    id='exampleInputPassword1'
+                    placeholder='Password'
+                  />
+                  {error?.password && (
+                    <small id='emailHelp' className='form-text text-danger'>
+                      {error.password.msg}
+                    </small>
+                  )}
+                </form>
               </div>
               <div>
                 <div style={{ textAlign: 'center' }}>

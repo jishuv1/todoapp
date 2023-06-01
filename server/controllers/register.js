@@ -14,15 +14,18 @@ const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
 
-    const userExists = await User.findOne({ username: username });
-
-    if (userExists) {
-      return res.json(
-        jsonGenerate(statusCode.UNPROCESSABLE_ENTITY, 'username already exists')
-      );
-    }
-    // Save to DB
     try {
+      const userExists = await User.findOne({ username: username });
+
+      if (userExists) {
+        return res.json(
+          jsonGenerate(
+            statusCode.UNPROCESSABLE_ENTITY,
+            'Username already exists'
+          )
+        );
+      }
+
       const result = await User.create({
         username: username,
         password: hashPassword,
@@ -33,7 +36,7 @@ const register = async (req, res) => {
         process.env.JWT_TOKEN_SECRET
       );
 
-      res.json(
+      return res.json(
         jsonGenerate(statusCode.SUCCESS, 'Registration successful', {
           userId: result._id,
           token: token,
@@ -41,9 +44,13 @@ const register = async (req, res) => {
       );
     } catch (error) {
       console.log(error);
+      return res.json(
+        jsonGenerate(statusCode.UNPROCESSABLE_ENTITY, 'Registration failed')
+      );
     }
   }
-  res.json(
+
+  return res.json(
     jsonGenerate(
       statusCode.VALIDATION_ERROR,
       'Validation error',

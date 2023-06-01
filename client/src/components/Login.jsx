@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     username: '',
     password: '',
@@ -15,9 +15,9 @@ const Login = () => {
   useEffect(() => {
     const user = localStorage.getItem('user');
     if (user) {
-      return navigation('/');
+      return navigate('/tasks');
     }
-  }, [navigation]);
+  }, []);
 
   const [error, setError] = useState(null);
 
@@ -26,16 +26,14 @@ const Login = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     setError(null);
 
     const result = await login(form);
-    console.log('form submit', result);
 
     if (result.status === 200) {
       if (result.data.status === 200) {
         localStorage.setItem('user', JSON.stringify(result.data.data));
-        navigation('/');
+        navigate('/');
         return;
       }
       if (result.data.status === 201) {
@@ -52,20 +50,19 @@ const Login = () => {
   return (
     <>
       <Header />
-
       <div className='container'>
         <ToastContainer />
         <div className='row justify-content-center mt-4'>
           <div
             className='card text-white bg-secondary  '
-            style={{ 'max-width': '30rem' }}
+            style={{ maxWidth: '30rem' }}
           >
             <div className='card-body'>
               <h4 className='card-title'>Login Now</h4>
 
               <div className='form-group'>
                 <label htmlFor='exampleInputEmail1' className='form-label'>
-                  Username
+                  Email or Username
                 </label>
                 <input
                   type='text'
@@ -89,27 +86,29 @@ const Login = () => {
                 >
                   Password
                 </label>
-                <input
-                  type='password'
-                  onChange={handleChange}
-                  name='password'
-                  className='form-control'
-                  id='exampleInputPassword1'
-                  placeholder='Password'
-                />
-                {error?.password && (
-                  <small id='emailHelp' className='form-text text-danger'>
-                    {error.password.msg}
-                  </small>
-                )}
+                <form>
+                  <input
+                    type='password'
+                    onChange={handleChange}
+                    name='password'
+                    className='form-control'
+                    id='exampleInputPassword1'
+                    placeholder='Password'
+                  />
+                  {error?.password && (
+                    <small id='emailHelp' className='form-text text-danger'>
+                      {error.password.msg}
+                    </small>
+                  )}
+                </form>
               </div>
               <div>
                 <div style={{ textAlign: 'center' }}>
                   <button
                     onClick={handleSubmit}
                     type='button'
-                    class='btn btn-primary mt-1'
-                    style={{ 'margin-right': '2rem' }}
+                    className='btn btn-primary mt-1'
+                    style={{ marginRight: '2rem' }}
                   >
                     Login
                   </button>
