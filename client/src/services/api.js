@@ -4,7 +4,9 @@ import {
   LOGIN,
   MARK_TODO,
   REGISTER,
+  REMOVE_TODO,
   TODO_LIST,
+  UPDATE_TODO,
 } from './apiConstants.js';
 
 export const login = async (data) => axios.post(LOGIN, data);
@@ -41,6 +43,26 @@ export const markTodo = async (data) => {
   let token = getToken();
 
   return axios.post(MARK_TODO, data, {
+    headers: {
+      auth: token,
+    },
+  });
+};
+
+export const updateTodo = async (data) => {
+  let token = getToken();
+
+  return axios.post(UPDATE_TODO, data, {
+    headers: {
+      auth: token,
+    },
+  });
+};
+
+export const removeTodo = async (data) => {
+  let token = getToken();
+
+  return axios.post(REMOVE_TODO, data, {
     headers: {
       auth: token,
     },

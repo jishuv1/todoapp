@@ -1,9 +1,8 @@
 import moment from 'moment/moment.js';
-import { markTodo } from '../services/api.js';
+import { markTodo, removeTodo } from '../services/api.js';
 import { toast } from 'react-toastify';
-import TodoModal from './TodoModal.jsx';
 
-const Todo = ({ todo, setRefreshList }) => {
+const Todo = ({ todo, setRefreshList, onEdit }) => {
   const handleChangeStatus = async (todoId) => {
     const result = await markTodo({ todo_id: todoId });
     if (result.status === 200 && result.data.status === 200) {
@@ -15,7 +14,17 @@ const Todo = ({ todo, setRefreshList }) => {
   };
 
   const handleEditTodo = async (todoId) => {
-    console.log('todoId', todoId);
+    onEdit(todo);
+  };
+
+  const handleRemoveTodo = async (todoId) => {
+    const result = await removeTodo({ todo_id: todoId });
+    if (result.status === 200 && result.data.status === 200) {
+      toast('Todo Removed');
+      setRefreshList(new Date());
+    } else {
+      toast(result.data.message);
+    }
   };
 
   return (
@@ -25,16 +34,28 @@ const Todo = ({ todo, setRefreshList }) => {
           {moment(todo.date).fromNow()}
         </span>
         {todo.isCompleted ? (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleChangeStatus(todo._id);
-            }}
-            type='button'
-            className='badge bg-success'
-          >
-            Completed
-          </button>
+          <>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleChangeStatus(todo._id);
+              }}
+              type='button'
+              className='badge bg-success'
+            >
+              Completed
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleRemoveTodo(todo._id);
+              }}
+              type='button'
+              className='badge bg-primary'
+            >
+              Remove
+            </button>
+          </>
         ) : (
           <button
             onClick={(e) => {
@@ -61,10 +82,16 @@ const Todo = ({ todo, setRefreshList }) => {
         </button>
       </div>
       <div className='card-body'>
-        <h4 className='card-title'>{todo.title}</h4>
+        <h5
+          className='card-title'
+          style={{ textDecoration: todo.isCompleted ? 'line-through' : '' }}
+        >
+          {todo.title}
+        </h5>
         <p className='card-text'>{todo.description}</p>
       </div>
     </div>
   );
 };
+
 export default Todo;

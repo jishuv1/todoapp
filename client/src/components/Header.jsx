@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({ setSearch, setTodoFiter }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
@@ -14,12 +14,14 @@ const Header = () => {
     localStorage.clear();
     navigate('/login');
   };
+
+  const handleRemoveAllCompleted = () => {
+    console.log('Removing all completed');
+  };
   return (
     <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
       <div className='container-fluid'>
-        <a className='navbar-brand' href='#'>
-          To-Do List
-        </a>
+        <Link className='navbar-brand'>To-Do List</Link>
         <button
           className='navbar-toggler'
           type='button'
@@ -39,6 +41,47 @@ const Header = () => {
                   <Link className='nav-link active' to='/tasks'>
                     Tasks
                     <span className='visually-hidden'>(current)</span>
+                  </Link>
+                </li>
+
+                <li className='nav-item dropdown'>
+                  <Link
+                    className='nav-link dropdown-toggle show'
+                    data-bs-toggle='dropdown'
+                    role='button'
+                    aria-haspopup='true'
+                    aria-expanded='true'
+                  >
+                    Filter
+                  </Link>
+                  <div
+                    className='dropdown-menu show'
+                    style={{
+                      position: 'absolute',
+                      inset: '0px auto auto 0px',
+                      margin: 0,
+                      transform: 'translate(0px, 42px)',
+                    }}
+                    data-popper-placement='bottom-start'
+                    onClick={(e) => setTodoFiter(e.target.name)}
+                  >
+                    <Link className='dropdown-item' name='all'>
+                      All
+                    </Link>
+                    <Link className='dropdown-item' name='active'>
+                      Active
+                    </Link>
+                    <Link className='dropdown-item' name='completed'>
+                      Completed
+                    </Link>
+                  </div>
+                </li>
+                <li className='nav-item'>
+                  <Link
+                    className='nav-link active'
+                    onClick={handleRemoveAllCompleted}
+                  >
+                    Remove All (Completed)
                   </Link>
                 </li>
                 <li className='nav-item'>
@@ -73,10 +116,8 @@ const Header = () => {
                 className='form-control me-sm-2'
                 type='search'
                 placeholder='Search'
+                onChange={(e) => setSearch(e.target.value)}
               />
-              <button className='btn btn-secondary my-2 my-sm-0' type='submit'>
-                Search
-              </button>
             </form>
           )}
         </div>

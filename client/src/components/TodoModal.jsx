@@ -1,12 +1,22 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import { createTodoApi } from '../services/api.js';
+import { createTodoApi, updateTodo } from '../services/api.js';
 
-const TodoModal = ({ setRefreshList }) => {
+const TodoModal = ({ setRefreshList, onEdit, todo }) => {
   const [form, setForm] = useState({
     title: '',
     description: '',
   });
+
+  useEffect(() => {
+    if (todo) {
+      // Update the form fields when todo prop is provided
+      setForm({
+        title: todo.title,
+        description: todo.description,
+      });
+    }
+  }, [todo]);
 
   const handleChange = (e) => {
     setForm({
@@ -30,17 +40,38 @@ const TodoModal = ({ setRefreshList }) => {
       return;
     }
 
-    const result = await createTodoApi(form);
-
-    if (result.status === 200 && result.data.status === 200) {
-      toast('Todo Added');
-      setRefreshList(new Date());
-      setForm({
-        title: '',
-        description: '',
-      });
-    } else {
-      toast(result.data.message);
+    try {
+      let result;
+      if (todo) {
+        // Updating an existing todo
+        result = await updateTodo({ ...form, todo_id: todo._id });
+        if (result.status === 200 && result.data.status === 200) {
+          toast('Todo Updated');
+          setRefreshList(new Date());
+          setForm({
+            title: '',
+            description: '',
+          });
+          onEdit(null); // Clear the edit state
+        } else {
+          toast(result.data.message);
+        }
+      } else {
+        // Creating a new todo
+        result = await createTodoApi(form);
+        if (result.status === 200 && result.data.status === 200) {
+          toast('Todo Added');
+          setRefreshList(new Date());
+          setForm({
+            title: '',
+            description: '',
+          });
+        } else {
+          toast(result.data.message);
+        }
+      }
+    } catch (error) {
+      toast('Error occurred while saving the todo');
     }
   };
 
@@ -68,6 +99,7 @@ const TodoModal = ({ setRefreshList }) => {
                 className='form-control'
                 rows={1}
                 placeholder='Add Title...'
+                value={form.title}
               ></textarea>
             </div>
             <div className='form-group'>
@@ -77,10 +109,11 @@ const TodoModal = ({ setRefreshList }) => {
                 className='form-control'
                 rows={3}
                 placeholder='Add Todo Description...'
+                value={form.description}
               ></textarea>
             </div>
           </div>
-          <div className='modal-fotter mb-3 ' style={{ textAlign: 'center' }}>
+          <div className='modal-fotter mb-3' style={{ textAlign: 'center' }}>
             <button
               type='button'
               className='btn btn-success'
@@ -88,7 +121,7 @@ const TodoModal = ({ setRefreshList }) => {
               onClick={handleTodoSubmit}
               data-bs-dismiss='modal'
             >
-              Save Todo
+              {todo ? 'Update Todo' : 'Save Todo'}
             </button>
             <button
               onClick={() => {
@@ -96,6 +129,7 @@ const TodoModal = ({ setRefreshList }) => {
                   title: '',
                   description: '',
                 });
+                onEdit(null); // Clear the edit state
               }}
               type='button'
               className='btn btn-warning'
@@ -109,4 +143,5 @@ const TodoModal = ({ setRefreshList }) => {
     </div>
   );
 };
+
 export default TodoModal;

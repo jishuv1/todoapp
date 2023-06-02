@@ -1,9 +1,16 @@
 import { check } from 'express-validator';
 
 export const todoSchema = [
-  check('title', 'Title is required').exists(),
+  check('title', 'Title is required & should be less than 50 characters')
+    .exists()
+    .isLength({ max: 50 }),
 
-  check('description', 'Description is required').exists(),
+  check(
+    'description',
+    'Description is required & should be less than 256 characters'
+  )
+    .exists()
+    .isLength({ max: 256 }),
 ];
 
 export const markTodoSchema = [

@@ -9,7 +9,10 @@ import { ToastContainer } from 'react-toastify';
 const Tasks = () => {
   const navigation = useNavigate();
   const [list, setList] = useState([]);
+  const [search, setSearch] = useState('');
   const [refreshList, setRefreshList] = useState();
+  const [editTodo, setEditTodo] = useState(null);
+  const [todoFiter, setTodoFiter] = useState('all');
 
   const fetchTodoList = async () => {
     const result = await getTodoListApi();
@@ -27,15 +30,40 @@ const Tasks = () => {
     fetchTodoList();
   }, [refreshList]);
 
+  const handleEdit = (todo) => {
+    setEditTodo(todo);
+  };
+
   return (
     <div>
       <ToastContainer />
-      <Header />
+      <Header setSearch={setSearch} setTodoFiter={setTodoFiter} />
       <div className='container'>
         <div className='row justify-content-md-center mt-4'>
-          {list.map((todo) => (
-            <Todo todo={todo} key={todo._id} setRefreshList={setRefreshList} />
-          ))}
+          {list
+            .filter((todo) => {
+              return search.toLowerCase() === ''
+                ? todo
+                : todo.title.toLowerCase().includes(search) ||
+                    todo.description.toLowerCase().includes(search);
+            })
+            .filter((todo) => {
+              if (todoFiter === 'all') {
+                return todo;
+              } else if (todoFiter === 'active') {
+                return todo.isCompleted === false;
+              } else {
+                return todo.isCompleted === true;
+              }
+            })
+            .map((todo) => (
+              <Todo
+                todo={todo}
+                key={todo._id}
+                setRefreshList={setRefreshList}
+                onEdit={handleEdit}
+              />
+            ))}
         </div>
       </div>
       <div
@@ -47,13 +75,19 @@ const Tasks = () => {
           className='btn btn-success'
           data-bs-toggle='modal'
           data-bs-target='#exampleModal'
+          onClick={() => setEditTodo(null)} // Clear the edit state
         >
           Add Todo
         </button>
       </div>
 
-      <TodoModal setRefreshList={setRefreshList} />
+      <TodoModal
+        setRefreshList={setRefreshList}
+        onEdit={handleEdit}
+        todo={editTodo}
+      />
     </div>
   );
 };
+
 export default Tasks;
