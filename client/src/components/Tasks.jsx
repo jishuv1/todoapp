@@ -12,7 +12,7 @@ const Tasks = () => {
   const [search, setSearch] = useState('');
   const [refreshList, setRefreshList] = useState();
   const [editTodo, setEditTodo] = useState(null);
-  const [todoFiter, setTodoFiter] = useState('all');
+  const [todoFilter, setTodoFilter] = useState('all');
 
   const fetchTodoList = async () => {
     const result = await getTodoListApi();
@@ -28,7 +28,7 @@ const Tasks = () => {
     }
 
     fetchTodoList();
-  }, [refreshList]);
+  }, [refreshList]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleEdit = (todo) => {
     setEditTodo(todo);
@@ -37,7 +37,11 @@ const Tasks = () => {
   return (
     <div>
       <ToastContainer />
-      <Header setSearch={setSearch} setTodoFiter={setTodoFiter} />
+      <Header
+        setSearch={setSearch}
+        setTodoFilter={setTodoFilter}
+        setRefreshList={setRefreshList}
+      />
       <div className='container'>
         <div className='row justify-content-md-center mt-4'>
           {list
@@ -48,9 +52,9 @@ const Tasks = () => {
                     todo.description.toLowerCase().includes(search);
             })
             .filter((todo) => {
-              if (todoFiter === 'all') {
+              if (todoFilter === 'all') {
                 return todo;
-              } else if (todoFiter === 'active') {
+              } else if (todoFilter === 'active') {
                 return todo.isCompleted === false;
               } else {
                 return todo.isCompleted === true;

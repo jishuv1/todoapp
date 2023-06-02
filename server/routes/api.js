@@ -8,6 +8,7 @@ import { getTodos } from '../controllers/todoList.js';
 import { markTodo } from '../controllers/markTodo.js';
 import { removeTodo } from '../controllers/removeTodo.js';
 import { updateTodo } from '../controllers/updateTodo.js';
+import { removeAllCompletedTodo } from '../controllers/removeAllCompleted.js';
 
 const apiRoute = express.Router();
 export const apiProtected = express.Router();
@@ -21,5 +22,6 @@ apiProtected.post('/marktodo', markTodoSchema, markTodo);
 apiProtected.post('/deletetodo', markTodoSchema, removeTodo);
 apiProtected.get('/todolist', getTodos);
 apiProtected.post('/updatetodo', todoSchema, updateTodo);
+apiProtected.post('/removeallcompletedtodo', removeAllCompletedTodo);
 
 export default apiRoute;

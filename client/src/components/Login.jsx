@@ -18,7 +18,7 @@ const Login = () => {
     if (user) {
       return navigate('/tasks');
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -77,6 +77,7 @@ const Login = () => {
                     {error.username.msg}
                   </small>
                 )}
+                <small>demo: demo@test.com</small>
               </div>
               <div className='form-group'>
                 <label
@@ -99,6 +100,7 @@ const Login = () => {
                       {error.password.msg}
                     </small>
                   )}
+                  <small>password: Demo12</small>
                 </form>
               </div>
               <div>

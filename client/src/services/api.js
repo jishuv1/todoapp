@@ -4,6 +4,7 @@ import {
   LOGIN,
   MARK_TODO,
   REGISTER,
+  REMOVE_ALL_COMPLETED_TODO,
   REMOVE_TODO,
   TODO_LIST,
   UPDATE_TODO,
@@ -21,6 +22,7 @@ export const getToken = () => {
 
 export const createTodoApi = async (data) => {
   let token = getToken();
+  console.log('createTodoApi', token);
 
   return axios.post(CREATE_TODO, data, {
     headers: {
@@ -67,4 +69,19 @@ export const removeTodo = async (data) => {
       auth: token,
     },
   });
+};
+
+export const removeAllCompletedTodo = async () => {
+  let token = getToken();
+  console.log('token', token);
+
+  return axios.post(
+    REMOVE_ALL_COMPLETED_TODO,
+    {},
+    {
+      headers: {
+        auth: token,
+      },
+    }
+  );
 };

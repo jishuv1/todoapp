@@ -81,7 +81,9 @@ const TodoModal = ({ setRefreshList, onEdit, todo }) => {
       <div className='modal-dialog' role='document'>
         <div className='modal-content'>
           <div className='modal-header'>
-            <div className='modal-title'>Add New Todo</div>
+            <div className='modal-title'>
+              {todo ? 'Edit Todo' : 'Add New Todo'}
+            </div>
             <button
               type='button'
               className='btn-close'

@@ -1,22 +1,31 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { removeAllCompletedTodo } from '../services/api.js';
 
-const Header = ({ setSearch, setTodoFiter }) => {
+const Header = ({ setSearch, setTodoFilter, setRefreshList }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const u = localStorage.getItem('user');
     setUser(u);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleLogout = () => {
     localStorage.clear();
     navigate('/login');
   };
 
-  const handleRemoveAllCompleted = () => {
-    console.log('Removing all completed');
+  const handleRemoveAllCompleted = async () => {
+    const result = await removeAllCompletedTodo();
+    console.log(result);
+    if (result.status === 200 && result.data.status === 200) {
+      toast('Completed Todos Removed');
+      setRefreshList(new Date());
+    } else {
+      toast(result.data.message);
+    }
   };
   return (
     <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
@@ -50,7 +59,7 @@ const Header = ({ setSearch, setTodoFiter }) => {
                     data-bs-toggle='dropdown'
                     role='button'
                     aria-haspopup='true'
-                    aria-expanded='true'
+                    aria-expanded='false'
                   >
                     Filter
                   </Link>
@@ -63,7 +72,7 @@ const Header = ({ setSearch, setTodoFiter }) => {
                       transform: 'translate(0px, 42px)',
                     }}
                     data-popper-placement='bottom-start'
-                    onClick={(e) => setTodoFiter(e.target.name)}
+                    onClick={(e) => setTodoFilter(e.target.name)}
                   >
                     <Link className='dropdown-item' name='all'>
                       All
