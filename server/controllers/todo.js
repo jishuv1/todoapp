@@ -10,7 +10,7 @@ export const createTodo = async (req, res) => {
     return res.json(
       jsonGenerate(
         statusCode.VALIDATION_ERROR,
-        'Todo Title should be less than 50 charaters required',
+        'Todo Title & Description should be less than 50 & 256 charaters respectively',
         error.mapped()
       )
     );
