@@ -7,7 +7,7 @@ import { getTodoListApi, getToken } from '../services/api.js';
 import { ToastContainer } from 'react-toastify';
 
 const Tasks = () => {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [list, setList] = useState([]);
   const [search, setSearch] = useState('');
   const [refreshList, setRefreshList] = useState();
@@ -23,8 +23,13 @@ const Tasks = () => {
   };
 
   useEffect(() => {
+    const user = localStorage.getItem('user');
     if (!getToken) {
-      navigation('/login');
+      navigate('/login');
+    }
+
+    if (!user) {
+      navigate('/login');
     }
 
     fetchTodoList();

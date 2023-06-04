@@ -17,6 +17,8 @@ const Login = () => {
     const user = localStorage.getItem('user');
     if (user) {
       return navigate('/tasks');
+    } else {
+      return navigate('/login');
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
