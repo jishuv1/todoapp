@@ -27,7 +27,6 @@ export const getToken = () => {
 // Create a new Todo
 export const createTodoApi = async (data) => {
   let token = getToken();
-  console.log('createTodoApi', token);
 
   return axios.post(CREATE_TODO, data, {
     headers: {
@@ -83,7 +82,6 @@ export const removeTodo = async (data) => {
 // Removing all completed Todos
 export const removeAllCompletedTodo = async () => {
   let token = getToken();
-  console.log('token', token);
 
   return axios.post(
     REMOVE_ALL_COMPLETED_TODO,
