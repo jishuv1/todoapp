@@ -6,8 +6,7 @@ export const loginSchema = [
     .exists()
     .isEmail()
     .withMessage('username should be an Email address')
-    .trim()
-    .isLength({ min: 6, max: 32 }),
+    .trim(),
 
   check('password', 'Password is required')
     .exists()
