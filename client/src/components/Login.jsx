@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+// Login Page
 const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -14,6 +15,7 @@ const Login = () => {
   });
 
   useEffect(() => {
+    // Checking if the user is authenticated
     const user = localStorage.getItem('user');
     if (user) {
       return navigate('/tasks');

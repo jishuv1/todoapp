@@ -2,6 +2,7 @@ import User from '../model/User.js';
 import { statusCode } from '../utils/constants.js';
 import { jsonGenerate } from '../utils/helper.js';
 
+// Getting the todos of a user
 export const getTodos = async (req, res) => {
   try {
     const list = await User.findById(req.userId)

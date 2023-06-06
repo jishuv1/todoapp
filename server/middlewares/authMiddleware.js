@@ -2,6 +2,7 @@ import { statusCode } from '../utils/constants.js';
 import { jsonGenerate } from '../utils/helper.js';
 import jwt from 'jsonwebtoken';
 
+// Authentication of the user
 const authMiddleware = (req, res, next) => {
   if (req.headers['auth'] === undefined) {
     return res.json(jsonGenerate(statusCode.AUTH_ERROR, 'Access Denied'));

@@ -1,12 +1,15 @@
 import { check } from 'express-validator';
 
+// Registering new user validators
 export const registerSchema = [
+  // validating username
   check('username', 'username is required')
     .exists()
     .isEmail()
     .withMessage('Invalid email format')
     .trim(),
 
+  // validating password
   check('password', 'Password is required')
     .exists()
     .isLength({ min: 6 })

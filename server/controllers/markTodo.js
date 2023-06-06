@@ -3,6 +3,7 @@ import { jsonGenerate } from '../utils/helper.js';
 import { statusCode } from '../utils/constants.js';
 import Todo from '../model/Todo.js';
 
+// Changing the status of the Todos
 export const markTodo = async (req, res) => {
   const error = validationResult(req);
 

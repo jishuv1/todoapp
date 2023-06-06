@@ -3,23 +3,26 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { removeAllCompletedTodo } from '../services/api.js';
 
+// Header or Topbar component
 const Header = ({ setSearch, setTodoFilter, setRefreshList }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    // Checking if user exists already
     const u = localStorage.getItem('user');
     setUser(u);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Logging out the user
   const handleLogout = () => {
     localStorage.clear();
     navigate('/login');
   };
 
+  // Removing all completed todos from the todos list
   const handleRemoveAllCompleted = async () => {
     const result = await removeAllCompletedTodo();
-    console.log(result);
     if (result.status === 200 && result.data.status === 200) {
       toast('Completed Todos Removed');
       setRefreshList(new Date());

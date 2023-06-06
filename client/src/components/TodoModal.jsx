@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { createTodoApi, updateTodo } from '../services/api.js';
 
+// Adding or removing todos modal
 const TodoModal = ({ setRefreshList, onEdit, todo }) => {
   const [form, setForm] = useState({
     title: '',

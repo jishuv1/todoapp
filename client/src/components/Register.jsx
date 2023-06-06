@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+// Registering new users page
 const Register = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({

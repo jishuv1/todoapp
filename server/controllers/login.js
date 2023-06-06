@@ -5,6 +5,7 @@ import { statusCode } from '../utils/constants.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+// Login the user
 const login = async (req, res) => {
   const errors = validationResult(req);
 

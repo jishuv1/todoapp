@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import User from '../model/User.js';
 import jwt from 'jsonwebtoken';
 
+// Registering new users
 const register = async (req, res) => {
   const errors = validationResult(req);
 

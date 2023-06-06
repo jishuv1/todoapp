@@ -2,6 +2,7 @@ import moment from 'moment/moment.js';
 import { markTodo, removeTodo } from '../services/api.js';
 import { toast } from 'react-toastify';
 
+// Todo Component for the individual todo tasks
 const Todo = ({ todo, setRefreshList, onEdit }) => {
   const handleChangeStatus = async (todoId) => {
     const result = await markTodo({ todo_id: todoId });

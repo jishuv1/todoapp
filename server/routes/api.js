@@ -14,15 +14,30 @@ import { loginSchema } from '../validationSchema/loginSchema.js';
 const apiRoute = express.Router();
 export const apiProtected = express.Router();
 
+// api route for registration of new users
 apiRoute.post('/register', registerSchema, register);
+
+// api route for login user
 apiRoute.post('/login', loginSchema, login);
 
 // Protected routes
+
+// Creating new Todo
 apiProtected.post('/createtodo', todoSchema, createTodo);
+
+// Changing the status of Todo
 apiProtected.post('/marktodo', markTodoSchema, markTodo);
+
+// Deleting Todo
 apiProtected.post('/deletetodo', markTodoSchema, removeTodo);
+
+// Getting Todos of the current user
 apiProtected.get('/todolist', getTodos);
+
+// Updating the existing todo
 apiProtected.post('/updatetodo', todoSchema, updateTodo);
+
+// Removing all completed todos of the current user
 apiProtected.post('/removeallcompletedtodo', removeAllCompletedTodo);
 
 export default apiRoute;

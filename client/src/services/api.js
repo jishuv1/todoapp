@@ -16,6 +16,7 @@ export const login = async (data) => axios.post(LOGIN, data);
 // Registering new user API
 export const register = async (data) => axios.post(REGISTER, data);
 
+// Getting Token of the Logged In User from Local Storage
 export const getToken = () => {
   let user = localStorage.getItem('user');
   if (!user) return;
@@ -23,6 +24,7 @@ export const getToken = () => {
   return userObj.token;
 };
 
+// Create a new Todo
 export const createTodoApi = async (data) => {
   let token = getToken();
   console.log('createTodoApi', token);
@@ -34,6 +36,7 @@ export const createTodoApi = async (data) => {
   });
 };
 
+// Get Todo List of the current user
 export const getTodoListApi = async () => {
   let token = getToken();
 
@@ -44,6 +47,7 @@ export const getTodoListApi = async () => {
   });
 };
 
+// Changing the status of the Todos
 export const markTodo = async (data) => {
   let token = getToken();
 
@@ -54,6 +58,7 @@ export const markTodo = async (data) => {
   });
 };
 
+// Updating the Todos
 export const updateTodo = async (data) => {
   let token = getToken();
 
@@ -64,6 +69,7 @@ export const updateTodo = async (data) => {
   });
 };
 
+// Removing the Todos
 export const removeTodo = async (data) => {
   let token = getToken();
 
@@ -74,6 +80,7 @@ export const removeTodo = async (data) => {
   });
 };
 
+// Removing all completed Todos
 export const removeAllCompletedTodo = async () => {
   let token = getToken();
   console.log('token', token);

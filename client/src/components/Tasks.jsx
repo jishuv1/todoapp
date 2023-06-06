@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { getTodoListApi, getToken } from '../services/api.js';
 import { ToastContainer } from 'react-toastify';
 
+// Tasks Page
 const Tasks = () => {
   const navigate = useNavigate();
   const [list, setList] = useState([]);
@@ -14,6 +15,7 @@ const Tasks = () => {
   const [editTodo, setEditTodo] = useState(null);
   const [todoFilter, setTodoFilter] = useState('all');
 
+  // Fetching the Todos from the database
   const fetchTodoList = async () => {
     const result = await getTodoListApi();
 
