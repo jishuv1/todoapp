@@ -10,7 +10,10 @@ import {
   UPDATE_TODO,
 } from './apiConstants.js';
 
+// Login API
 export const login = async (data) => axios.post(LOGIN, data);
+
+// Registering new user API
 export const register = async (data) => axios.post(REGISTER, data);
 
 export const getToken = () => {

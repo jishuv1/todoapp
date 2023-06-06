@@ -9,12 +9,13 @@ import { markTodo } from '../controllers/markTodo.js';
 import { removeTodo } from '../controllers/removeTodo.js';
 import { updateTodo } from '../controllers/updateTodo.js';
 import { removeAllCompletedTodo } from '../controllers/removeAllCompleted.js';
+import { loginSchema } from '../validationSchema/loginSchema.js';
 
 const apiRoute = express.Router();
 export const apiProtected = express.Router();
 
 apiRoute.post('/register', registerSchema, register);
-apiRoute.post('/login', registerSchema, login);
+apiRoute.post('/login', loginSchema, login);
 
 // Protected routes
 apiProtected.post('/createtodo', todoSchema, createTodo);

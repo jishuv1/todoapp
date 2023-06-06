@@ -1,10 +1,11 @@
 import { check } from 'express-validator';
 
-export const registerSchema = [
+// validation schema for
+export const loginSchema = [
   check('username', 'username is required')
     .exists()
-    .isAlphanumeric()
-    .withMessage('username should be alphanumeric characters')
+    .isEmail()
+    .withMessage('username should be an Email address')
     .trim()
     .isLength({ min: 6, max: 32 }),
 
